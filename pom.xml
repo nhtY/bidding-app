@@ -29,13 +29,33 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.redis.om</groupId>
+			<artifactId>redis-om-spring</artifactId>
+			<version>0.3.0-SNAPSHOT</version>
+		</dependency>
+
+		<!--	api endpoint test with Swagger	-->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-boot-starter</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>3.0.0</version>
 		</dependency>
 
 		<dependency>
@@ -55,6 +75,13 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>snapshots-repo</id>
+			<url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+		</repository>
+	</repositories>
 
 	<build>
 		<plugins>
