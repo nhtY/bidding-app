@@ -14,7 +14,6 @@ import java.util.Collection;
 @RequiredArgsConstructor(staticName = "of")
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Data
-
 public class User implements UserDetails {
 
     // Id Field, also indexed
