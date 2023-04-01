@@ -41,8 +41,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(                        (request) -> request
-//                .requestMatchers("/design", "/orders/**").hasRole("USER")
-                .requestMatchers("/", "/**").permitAll())
+                .requestMatchers("/", "/**").hasRole("USER")
+                .requestMatchers("/login", "/register").permitAll())
                 .formLogin()
                 .defaultSuccessUrl("/", true);
 
