@@ -3,6 +3,7 @@ package kartaca.model;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,12 +15,13 @@ import java.util.Collection;
 
 @RequiredArgsConstructor(staticName = "of")
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Data
 @RedisHash("USERS")
 public class User implements UserDetails, Serializable {
 
-    // Id Field, also indexed
-    @Id
+
+    @Id @Indexed
     private String id;
 
     // Indexed for exact text matching
@@ -29,7 +31,7 @@ public class User implements UserDetails, Serializable {
     @NonNull
     private String lastName;
 
-    @NonNull
+    @NonNull @Indexed
     private String username;
 
     @NonNull

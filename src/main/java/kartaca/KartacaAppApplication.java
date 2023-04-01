@@ -4,6 +4,7 @@ import kartaca.model.Product;
 import kartaca.model.User;
 import kartaca.repository.ProductRepository;
 import kartaca.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,18 +21,24 @@ import java.util.Arrays;
 
 //@EnableRedisDocumentRepositories(basePackages = "kartaca.*")
 //@EnableSwagger2
+@Slf4j
 @SpringBootApplication
 public class KartacaAppApplication {
+
+	public KartacaAppApplication(PasswordEncoder passwordEncoder) {
+		this.passwordEncoder = passwordEncoder;
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(KartacaAppApplication.class, args);
 	}
 
+	private PasswordEncoder passwordEncoder;
 
 	// pre-load data to redis:
 	@Bean
 	CommandLineRunner loadTestData(UserRepository userRepo,
-								   ProductRepository productRepo, PasswordEncoder passwordEncoder) {
+								   ProductRepository productRepo) {
 		return args -> {
 			userRepo.deleteAll();
 			productRepo.deleteAll();
@@ -45,6 +52,9 @@ public class KartacaAppApplication {
 
 			productRepo.saveAll(Arrays.asList(product1, product2, product3));
 			userRepo.saveAll(Arrays.asList(user1, user2));
+
+			log.info("Saved Users: {}", userRepo.findAll());
+			log.info("Saved User BOB: {}", userRepo.findByUsername("bob"));
 
 		};
 	}
