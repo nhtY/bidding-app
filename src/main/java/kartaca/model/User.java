@@ -1,12 +1,13 @@
 package kartaca.model;
 
-import com.redis.om.spring.annotations.Indexed;
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -14,25 +15,24 @@ import java.util.Collection;
 @RequiredArgsConstructor(staticName = "of")
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Data
-public class User implements UserDetails {
+@RedisHash("USERS")
+public class User implements UserDetails, Serializable {
 
     // Id Field, also indexed
     @Id
-    @Indexed
     private String id;
 
     // Indexed for exact text matching
-    @Indexed @NonNull
+    @NonNull
     private String firstName;
 
-    @Indexed
     @NonNull
     private String lastName;
 
-    @Indexed @NonNull
+    @NonNull
     private String username;
 
-    @Indexed @NonNull
+    @NonNull
     private String password;
 
     @Override

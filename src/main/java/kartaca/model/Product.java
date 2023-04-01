@@ -1,32 +1,30 @@
 package kartaca.model;
 
-import com.redis.om.spring.annotations.Document;
-import com.redis.om.spring.annotations.Indexed;
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
 
 import java.util.List;
 
 @RequiredArgsConstructor(staticName = "of")
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Data
-@Document
+@RedisHash("PRODUCTS")
 public class Product {
 
     @Id
-    @Indexed
     private String id;
 
-    @Indexed @NonNull
+    @NonNull
     private String productName;
 
-    @Indexed @NonNull
+    @NonNull
     private String description;
 
-    @Indexed @NonNull
+    @NonNull
     private double price;
 
-    @Indexed @NonNull
+    @NonNull
     private List<Offer> offers;
 
 }

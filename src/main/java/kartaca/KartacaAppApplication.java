@@ -1,7 +1,5 @@
 package kartaca;
 
-import com.redis.om.spring.annotations.EnableRedisDocumentRepositories;
-import kartaca.model.Offer;
 import kartaca.model.Product;
 import kartaca.model.User;
 import kartaca.repository.ProductRepository;
@@ -15,14 +13,13 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+//import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-@EnableRedisDocumentRepositories(basePackages = "kartaca.*")
-@EnableSwagger2
+//@EnableRedisDocumentRepositories(basePackages = "kartaca.*")
+//@EnableSwagger2
 @SpringBootApplication
 public class KartacaAppApplication {
 
