@@ -1,11 +1,11 @@
-package kartaca.model;
+package kartaca.security;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class LoginResponse {
+public class CurrentUser {
     private String userID;
     private String username;
     private String firstName;

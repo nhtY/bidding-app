@@ -1,7 +1,7 @@
 package kartaca.controller;
 
 import jakarta.validation.Valid;
-import kartaca.model.LoginResponse;
+import kartaca.security.CurrentUser;
 import kartaca.model.User;
 import kartaca.security.LoginForm;
 import kartaca.model.MessageResponse;
@@ -14,11 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -80,11 +78,32 @@ public class AuthController {
 
         User user = (User) authentication.getPrincipal();
 
-        return ResponseEntity.ok(new LoginResponse(
+        return ResponseEntity.ok(new CurrentUser(
                 user.getId(),
                 user.getUsername(),
                 user.getFirstName(),
                 user.getLastName()));
+    }
+
+    @GetMapping("/current-user")
+    public CurrentUser getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+//        if(authentication == null) {
+//
+//        }
+
+        User user = (User) authentication.getPrincipal();
+        return  new CurrentUser(
+                user.getId(),
+                user.getUsername(),
+                user.getFirstName(),
+                user.getLastName());
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<MessageResponse> logout() {
+        return ResponseEntity.ok(new MessageResponse("Logout successful"));
     }
 
     private  ResponseEntity<Object> handleFormValidationError(BindingResult bindingResult, HttpStatus status) {
