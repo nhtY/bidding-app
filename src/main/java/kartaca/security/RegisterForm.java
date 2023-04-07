@@ -10,20 +10,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Data
 public class RegisterForm {
 
-    @NotBlank(message = "isim boş bırakılamaz")
-    @Length(min = 3, message = "En az 3 karakter olmalı")
+    @NotBlank(message = "İsim boş bırakılamaz")
+    @Length(min = 3, message = "İsim en az 3 karakter olmalı")
     private String firstName;
 
-    @NotBlank(message = "soyisim boş bırakılamaz")
-    @Length(min = 3, message = "En az 3 karakter olmalı")
+    @NotBlank(message = "Soyisim boş bırakılamaz")
+    @Length(min = 3, message = "Soyisim en az 3 karakter olmalı")
     private String lastName;
 
     @NotBlank(message = "Kullanıcı adı boş bırakılamaz")
-    @Length(min = 4, message = "En az 4 karakter olmalı")
+    @Length(min = 4, message = "Kullanıcı adı en az 4 karakter olmalı")
     private String username;
 
     @NotBlank(message = "Şifre boş bırakılamaz")
-    @Length(min = 8, message = "En az 8 karakter olmalı")
+    @Length(min = 8, message = "Şifre en az 8 karakter olmalı")
     private String password;
 
     public User toUser(PasswordEncoder passwordEncoder) {
