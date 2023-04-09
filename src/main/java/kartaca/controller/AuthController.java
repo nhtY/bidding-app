@@ -10,15 +10,19 @@ import kartaca.security.RegisterForm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -52,14 +56,14 @@ public class AuthController {
                     .badRequest()
                     .body(new MessageResponse("Error: Username is already taken!"));
         }
-        userRepo.save(form.toUser(passwordEncoder));
+        User userSaved = userRepo.save(form.toUser(passwordEncoder));
 
-        log.info("User registered: {}", form);
+        log.info("User registered: {}", userSaved);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return ResponseEntity.ok(userSaved);
     }
 
-    @PostMapping(path="/login", consumes="application/json")
+    @PostMapping(path="/login")
     public ResponseEntity<Object> authenticateUser(@Valid @RequestBody LoginForm loginData
                                                    // , BindingResult bindingResult
                                                                                         ){
@@ -74,35 +78,50 @@ public class AuthController {
 
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        log.info("User Logged-in successful: {}", loginData);
+
+        log.warn("AUTH DEATAILS: {}", authentication.isAuthenticated());
 
         User user = (User) authentication.getPrincipal();
+        log.info("User Logged-in successful: {}", user);
 
-        return ResponseEntity.ok(new CurrentUser(
+
+        log.info("AUTHED : ", authentication.isAuthenticated());
+
+        return ResponseEntity.ok(authentication);
+// new CurrentUser(
+//        user.getId(),
+//                user.getUsername(),
+//                user.getFirstName(),
+//                user.getLastName())
+
+    }
+
+
+
+    @GetMapping("/current-user")
+    public ResponseEntity getCurrentUser(@AuthenticationPrincipal User userR) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if(authentication == null) {
+            log.warn("CURRENT USER is NULL !!!");
+            Map<String, String> body = new LinkedHashMap<>();
+            body.put("error", "No user found");
+            return ResponseEntity.of(Optional.of(body));
+        }
+
+        log.warn("CURRENT USER getName: {}", authentication.getName());
+        User user = userRepo.findByUsername(userR.getUsername()); // authentication.getName()
+
+        return  ResponseEntity.ok(new CurrentUser(
                 user.getId(),
                 user.getUsername(),
                 user.getFirstName(),
                 user.getLastName()));
     }
 
-    @GetMapping("/current-user")
-    public CurrentUser getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-//        if(authentication == null) {
-//
-//        }
-
-        User user = (User) authentication.getPrincipal();
-        return  new CurrentUser(
-                user.getId(),
-                user.getUsername(),
-                user.getFirstName(),
-                user.getLastName());
-    }
-
     @PostMapping("/logout")
     public ResponseEntity<MessageResponse> logout() {
+
         return ResponseEntity.ok(new MessageResponse("Logout successful"));
     }
 
