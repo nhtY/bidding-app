@@ -1,4 +1,4 @@
-package kartaca.model;
+package kartaca.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

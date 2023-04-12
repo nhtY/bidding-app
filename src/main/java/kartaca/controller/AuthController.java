@@ -1,28 +1,25 @@
 package kartaca.controller;
 
 import jakarta.validation.Valid;
-import kartaca.security.CurrentUser;
+import kartaca.dto.CurrentUser;
 import kartaca.model.User;
-import kartaca.security.LoginForm;
-import kartaca.model.MessageResponse;
+import kartaca.dto.LoginForm;
+import kartaca.dto.MessageResponse;
 import kartaca.repository.UserRepository;
 import kartaca.security.RegisterForm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -64,8 +61,8 @@ public class AuthController {
     }
 
     @PostMapping(path="/login")
-    public ResponseEntity<Object> authenticateUser(@Valid @RequestBody LoginForm loginData
-                                                   // , BindingResult bindingResult
+    public CurrentUser authenticateUser(@Valid @RequestBody LoginForm loginData
+                                        // , BindingResult bindingResult
                                                                                         ){
 
 //        if (bindingResult.hasErrors()) {
@@ -87,12 +84,11 @@ public class AuthController {
 
         log.info("AUTHED : ", authentication.isAuthenticated());
 
-        return ResponseEntity.ok(authentication);
-// new CurrentUser(
-//        user.getId(),
-//                user.getUsername(),
-//                user.getFirstName(),
-//                user.getLastName())
+        return new CurrentUser(
+                user.getId(),
+                user.getUsername(),
+                user.getFirstName(),
+                user.getLastName());
 
     }
 

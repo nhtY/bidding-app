@@ -1,4 +1,4 @@
-package kartaca.security;
+package kartaca.dto;
 
 
 import lombok.Data;
