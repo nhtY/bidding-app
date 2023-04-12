@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -61,8 +62,8 @@ public class AuthController {
     }
 
     @PostMapping(path="/login")
-    public CurrentUser authenticateUser(@Valid @RequestBody LoginForm loginData
-                                        // , BindingResult bindingResult
+    public ResponseEntity authenticateUser(@Valid @RequestBody LoginForm loginData
+                                           // , BindingResult bindingResult
                                                                                         ){
 
 //        if (bindingResult.hasErrors()) {
@@ -70,8 +71,17 @@ public class AuthController {
 //            return handleFormValidationError(bindingResult, HttpStatus.BAD_REQUEST);
 //        }
 
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                                                    loginData.getUsername(), loginData.getPassword()));
+        Authentication authentication;
+        try {
+            authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    loginData.getUsername(), loginData.getPassword()));
+        }catch (AuthenticationException exception) {
+            log.warn("Authentication exception : {}", exception.getMessage());
+            Map<String, String> authException = new LinkedHashMap<>();
+            authException.put("error", exception.getMessage());
+            return new ResponseEntity(authException, HttpStatus.BAD_REQUEST);
+        }
+
 
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -84,11 +94,11 @@ public class AuthController {
 
         log.info("AUTHED : ", authentication.isAuthenticated());
 
-        return new CurrentUser(
+        return ResponseEntity.ok(new CurrentUser(
                 user.getId(),
                 user.getUsername(),
                 user.getFirstName(),
-                user.getLastName());
+                user.getLastName()));
 
     }
 
@@ -102,7 +112,7 @@ public class AuthController {
             log.warn("CURRENT USER is NULL !!!");
             Map<String, String> body = new LinkedHashMap<>();
             body.put("error", "No user found");
-            return ResponseEntity.of(Optional.of(body));
+            return new ResponseEntity(Optional.of(body), HttpStatus.NOT_FOUND);
         }
 
         log.warn("CURRENT USER getName: {}", authentication.getName());
@@ -115,11 +125,7 @@ public class AuthController {
                 user.getLastName()));
     }
 
-    @PostMapping("/logout")
-    public ResponseEntity<MessageResponse> logout() {
 
-        return ResponseEntity.ok(new MessageResponse("Logout successful"));
-    }
 
     private  ResponseEntity<Object> handleFormValidationError(BindingResult bindingResult, HttpStatus status) {
         Map<String, Object> body = new LinkedHashMap<>();

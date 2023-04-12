@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -16,10 +17,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 
+import java.net.http.HttpHeaders;
+import java.util.Date;
 import java.util.Optional;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -60,8 +64,8 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        HttpSessionRequestCache requestCache = new HttpSessionRequestCache();
-        requestCache.setMatchingRequestParameterName("continue");
+//        HttpSessionRequestCache requestCache = new HttpSessionRequestCache();
+//        requestCache.setMatchingRequestParameterName("continue");
 
         http.csrf().disable().cors().disable().httpBasic((basic) -> basic
                 .withObjectPostProcessor(new ObjectPostProcessor<BasicAuthenticationFilter>() {
@@ -76,6 +80,8 @@ public class SecurityConfig {
                 .formLogin().permitAll()
                 .and()
                 .logout()
+                .logoutUrl("/api/auth/logout")
+                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))
                 .and()
                 .anonymous().disable();
 
