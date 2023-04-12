@@ -1,5 +1,6 @@
 package kartaca;
 
+import kartaca.model.Offer;
 import kartaca.model.Product;
 import kartaca.model.User;
 import kartaca.repository.ProductRepository;
@@ -47,11 +48,20 @@ public class KartacaAppApplication {
 			Product product2 = Product.of("Product Name-2", "Description-2", 30.0, new ArrayList<>());
 			Product product3 = Product.of("Product Name-3", "Description-3", 45.0, new ArrayList<>());
 
+
+
 			User user1 = User.of("David", "Brown", "david", passwordEncoder.encode("david123"));
 			User user2 = User.of("Bob", "Green", "bob", passwordEncoder.encode("bob123"));
 
-			productRepo.saveAll(Arrays.asList(product1, product2, product3));
+
+
+
+
 			userRepo.saveAll(Arrays.asList(user1, user2));
+
+			product1.addOffer(Offer.of(userRepo.findByUsername("bob").getId(), 35.0));
+
+			productRepo.saveAll(Arrays.asList(product1, product2, product3));
 
 			log.info("Saved Users: {}", userRepo.findAll());
 			log.info("Saved User BOB: {}", userRepo.findByUsername("bob"));

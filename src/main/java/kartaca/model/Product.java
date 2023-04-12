@@ -29,4 +29,8 @@ public class Product {
     @NonNull
     private List<Offer> offers;
 
+    public void addOffer(Offer newOffer) {
+        this.offers.add(newOffer);
+    }
+
 }
