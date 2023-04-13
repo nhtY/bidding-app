@@ -1,8 +1,7 @@
-package kartaca.security;
+package bidding.security;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import kartaca.model.User;
+import bidding.model.User;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.crypto.password.PasswordEncoder;

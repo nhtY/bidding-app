@@ -1,12 +1,12 @@
-package kartaca.controller;
+package bidding.controller;
 
 import jakarta.validation.Valid;
-import kartaca.dto.CurrentUser;
-import kartaca.model.User;
-import kartaca.dto.LoginForm;
-import kartaca.dto.MessageResponse;
-import kartaca.repository.UserRepository;
-import kartaca.security.RegisterForm;
+import bidding.dto.CurrentUser;
+import bidding.model.User;
+import bidding.dto.LoginForm;
+import bidding.dto.MessageResponse;
+import bidding.repository.UserRepository;
+import bidding.security.RegisterForm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;

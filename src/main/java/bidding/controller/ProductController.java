@@ -1,7 +1,7 @@
-package kartaca.controller;
+package bidding.controller;
 
-import kartaca.model.Product;
-import kartaca.repository.ProductRepository;
+import bidding.model.Product;
+import bidding.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

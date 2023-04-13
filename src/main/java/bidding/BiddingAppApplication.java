@@ -1,10 +1,10 @@
-package kartaca;
+package bidding;
 
-import kartaca.model.Offer;
-import kartaca.model.Product;
-import kartaca.model.User;
-import kartaca.repository.ProductRepository;
-import kartaca.repository.UserRepository;
+import bidding.model.Offer;
+import bidding.model.Product;
+import bidding.model.User;
+import bidding.repository.ProductRepository;
+import bidding.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -24,14 +24,14 @@ import java.util.Arrays;
 //@EnableSwagger2
 @Slf4j
 @SpringBootApplication
-public class KartacaAppApplication {
+public class BiddingAppApplication {
 
-	public KartacaAppApplication(PasswordEncoder passwordEncoder) {
+	public BiddingAppApplication(PasswordEncoder passwordEncoder) {
 		this.passwordEncoder = passwordEncoder;
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(KartacaAppApplication.class, args);
+		SpringApplication.run(BiddingAppApplication.class, args);
 	}
 
 	private PasswordEncoder passwordEncoder;

@@ -1,4 +1,4 @@
-package kartaca.model;
+package bidding.model;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;

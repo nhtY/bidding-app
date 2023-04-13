@@ -1,7 +1,7 @@
-package kartaca.security;
+package bidding.security;
 
-import kartaca.model.User;
-import kartaca.repository.UserRepository;
+import bidding.model.User;
+import bidding.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,13 +20,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-
-import java.net.http.HttpHeaders;
-import java.util.Date;
-import java.util.Optional;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Slf4j
 @Configuration

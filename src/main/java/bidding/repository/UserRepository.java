@@ -1,7 +1,7 @@
-package kartaca.repository;
+package bidding.repository;
 
 // import com.redis.om.spring.repository.RedisDocumentRepository;
-import kartaca.model.User;
+import bidding.model.User;
 import org.springframework.data.repository.CrudRepository;
 
 public interface UserRepository extends CrudRepository<User, String> {

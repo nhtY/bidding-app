@@ -1,4 +1,4 @@
-package kartaca.config;
+package bidding.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

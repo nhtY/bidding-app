@@ -1,25 +1,36 @@
-package kartaca.model;
+package bidding.model;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.index.Indexed;
 
+import java.util.List;
+
 @RequiredArgsConstructor(staticName = "of")
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor
 @Data
-@RedisHash("OFFERS")
-public class Offer {
+@RedisHash("PRODUCTS")
+public class Product {
 
     @Id @Indexed
     private String id;
 
-    // the owner of the offer
-    @NonNull
-    private String ownerId;
+    @NonNull @Indexed
+    private String productName;
 
     @NonNull
-    private double amount;
+    private String description;
+
+    @NonNull
+    private double price;
+
+    @NonNull
+    private List<Offer> offers;
+
+    public void addOffer(Offer newOffer) {
+        this.offers.add(newOffer);
+    }
 
 }

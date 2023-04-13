@@ -1,4 +1,4 @@
-package kartaca.dto;
+package bidding.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

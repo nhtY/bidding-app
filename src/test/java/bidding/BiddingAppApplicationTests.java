@@ -1,10 +1,10 @@
-package kartaca;
+package bidding;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class KartacaAppApplicationTests {
+class BiddingAppApplicationTests {
 
 	@Test
 	void contextLoads() {
