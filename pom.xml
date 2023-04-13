@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>me</groupId>
-	<artifactId>kartaca-app</artifactId>
+	<artifactId>bidding-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>bidding-app</name>
-	<description>Kartaca internship application project by Nihat Yalcin</description>
+	<description>Web-backend project by Nihat Yalcin</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
