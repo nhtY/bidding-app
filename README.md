@@ -1,6 +1,8 @@
 A web application developed with **Spring Framework** on backend side and **React** on frontend side. 
 *The project is still under development.*
 
+**See the frontend repo:** [here](https://github.com/nhtY/bidding-frontend) 
+
 * Redis is used to store the data. 
 * Spring Security is used to secure the requests and resources. 
 * Spring Data is used to persist data.
