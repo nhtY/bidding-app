@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,6 +25,7 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 @Slf4j
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
     // Define password encoder
@@ -60,22 +62,23 @@ public class SecurityConfig {
 //        HttpSessionRequestCache requestCache = new HttpSessionRequestCache();
 //        requestCache.setMatchingRequestParameterName("continue");
 
-        http.csrf().disable().cors().disable().httpBasic((basic) -> basic
-                .withObjectPostProcessor(new ObjectPostProcessor<BasicAuthenticationFilter>() {
-                    public BasicAuthenticationFilter postProcess(BasicAuthenticationFilter filter) {
-                        filter.setSecurityContextRepository(new HttpSessionSecurityContextRepository());
-                        return filter;
-                    }
-                })).authorizeHttpRequests((request) -> request
-                        .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
+        http.csrf().disable().authorizeHttpRequests((request) -> request
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/products").hasRole("USER"))
-                .formLogin().permitAll()
-                .and()
+                        .requestMatchers("/api/products").hasRole("USER")
+                        .anyRequest().authenticated()
+                )
                 .logout()
                 .logoutUrl("/api/auth/logout")
                 .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))
                 .and()
+                // Use HttpBasic Authentication
+                .httpBasic((basic) -> basic // save logged-in user's session data in context repository
+                        .withObjectPostProcessor(new ObjectPostProcessor<BasicAuthenticationFilter>() {
+                            public BasicAuthenticationFilter postProcess(BasicAuthenticationFilter filter) {
+                                filter.setSecurityContextRepository(new HttpSessionSecurityContextRepository());
+                                return filter;
+                            }
+                        }))
                 .anonymous().disable();
 
         return  http.build();

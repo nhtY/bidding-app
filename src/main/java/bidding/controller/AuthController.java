@@ -92,7 +92,7 @@ public class AuthController {
         log.info("User Logged-in successful: {}", user);
 
 
-        log.info("AUTHED : ", authentication.isAuthenticated());
+        log.info("AUTHED : {}", authentication.isAuthenticated());
 
         return ResponseEntity.ok(new CurrentUser(
                 user.getId(),
