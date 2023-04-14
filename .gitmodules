@@ -1,0 +1,3 @@
+[submodule "bidding-frontend"]
+	path = bidding-frontend
+	url = https://github.com/nhtY/bidding-frontend.git
