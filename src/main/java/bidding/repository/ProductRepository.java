@@ -1,9 +1,11 @@
 package bidding.repository;
 
-// import com.redis.om.spring.repository.RedisDocumentRepository;
+
 import bidding.model.Product;
-import org.springframework.data.repository.CrudRepository;
+import com.redis.om.spring.repository.RedisDocumentRepository;
 
-public interface ProductRepository extends CrudRepository<Product, String> {
+import java.util.List;
 
+public interface ProductRepository extends RedisDocumentRepository<Product, String> {
+    Product findByProductName(String productName);
 }

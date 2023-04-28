@@ -1,9 +1,9 @@
 package bidding.model;
 
+import com.redis.om.spring.annotations.Document;
+import com.redis.om.spring.annotations.Indexed;
 import lombok.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.redis.core.RedisHash;
-import org.springframework.data.redis.core.index.Indexed;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,14 +17,12 @@ import java.util.Collection;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor
 @Data
-@RedisHash("USERS")
+@Document
 public class User implements UserDetails, Serializable {
-
 
     @Id @Indexed
     private String id;
 
-    // Indexed for exact text matching
     @NonNull
     private String firstName;
 
