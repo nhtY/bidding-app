@@ -62,7 +62,10 @@ public class SecurityConfig {
 //        HttpSessionRequestCache requestCache = new HttpSessionRequestCache();
 //        requestCache.setMatchingRequestParameterName("continue");
 
-        http.csrf().disable().authorizeHttpRequests((request) -> request
+        // http.cors().disable().csrf().disable().authorizeHttpRequests().anyRequest().permitAll();
+
+        // csrf().disable()
+        http.cors().disable().authorizeHttpRequests((request) -> request
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/products").hasRole("USER")
                         .anyRequest().authenticated()
@@ -80,6 +83,8 @@ public class SecurityConfig {
                             }
                         }))
                 .anonymous().disable();
+
+
 
         return  http.build();
     }

@@ -1,30 +1,23 @@
 package bidding.controller;
 
-import bidding.dto.OfferMessage;
 import bidding.model.Offer;
 import bidding.model.Product;
-import bidding.model.Product$;
 import bidding.repository.OfferRepository;
 import bidding.repository.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.HtmlUtils;
 
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RestController
 @RequestMapping("/api/products")
+@CrossOrigin(origins = {"http://localhost:8080", "http://127.0.0.1:5500"}) // http://127.0.0.1:5500 is vsCode testing
 public class ProductController {
     private ProductRepository productRepo;
     private OfferRepository offerRepo;
@@ -46,25 +39,6 @@ public class ProductController {
     public Product findProduct(@PathVariable String id){
 
         return productRepo.findById(id).orElse(null);
-    }
-
-
-    @MessageMapping("/{id}/bid") // The messages sent to this path will be handled by this method.
-    @SendTo("/topic/bidding/{id}") // clients listening to this path will see the returned message (Offer object)
-    public Offer giveOffer(@PathVariable String id,
-                           OfferMessage offer){
-        Product product = productRepo.findById(id).orElse(null);
-        Offer savedOffer = null;
-        String userId;
-        double amount;
-        if(product != null) {
-
-            userId = HtmlUtils.htmlEscape(offer.getUserId());
-            amount = offer.getOffer();
-
-            savedOffer = offerRepo.save(Offer.of(id, userId, amount));
-        }
-       return savedOffer;
     }
 
     @GetMapping("/{id}/offer-list")
