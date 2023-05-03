@@ -21,6 +21,9 @@ public class Product implements Serializable {
     @Indexed
     private String id;
 
+    @Indexed @NonNull
+    private String productOwner; // username of the owner
+
     @NonNull @Indexed
     private String productName;
 
