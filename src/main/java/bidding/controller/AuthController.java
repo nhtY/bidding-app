@@ -1,5 +1,6 @@
 package bidding.controller;
 
+import bidding.utils.FormHandle;
 import jakarta.validation.Valid;
 import bidding.dto.CurrentUser;
 import bidding.model.User;
@@ -46,7 +47,7 @@ public class AuthController {
 
         if (bindingResult.hasErrors()) {
             log.warn("FORM VALIDATION ERROR...register");
-            return handleFormValidationError(bindingResult, HttpStatus.BAD_REQUEST);
+            return FormHandle.handleFormValidationError(bindingResult, HttpStatus.BAD_REQUEST);
         }
 
         if(userRepo.existsByUsername(form.getUsername()) != null) {
@@ -125,22 +126,4 @@ public class AuthController {
                 user.getLastName()));
     }
 
-
-
-    private  ResponseEntity<Object> handleFormValidationError(BindingResult bindingResult, HttpStatus status) {
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", new Date());
-        body.put("status", status);
-
-        //Get all fields errors
-        List<String> errors = bindingResult
-                .getFieldErrors()
-                .stream()
-                .map(x -> x.getDefaultMessage())
-                .collect(Collectors.toList());
-
-        body.put("errors", errors);
-
-        return new ResponseEntity<>(body, HttpStatusCode.valueOf(status.value()));
-    }
 }

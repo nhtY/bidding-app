@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface ProductRepository extends RedisDocumentRepository<Product, String> {
     Product findByProductName(String productName);
+
+    List<Product> findByProductOwner(String username);
 }

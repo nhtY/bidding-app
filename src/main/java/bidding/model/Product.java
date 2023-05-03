@@ -30,10 +30,10 @@ public class Product implements Serializable {
     private String description;
 
     @NonNull @Indexed
-    private double basePrice;
+    private Double basePrice;
 
     @Indexed
-    private double soldPrice;
+    private Double soldPrice;
 
     @NonNull
     private String imgUrl;
@@ -42,6 +42,6 @@ public class Product implements Serializable {
     private Date createdAt = new Date();
 
     @Indexed
-    private boolean isSold = false;
+    private Boolean isSold = false;
 
 }
