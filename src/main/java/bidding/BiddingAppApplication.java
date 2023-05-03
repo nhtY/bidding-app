@@ -2,7 +2,6 @@ package bidding;
 
 import bidding.model.Offer;
 import bidding.model.Product;
-import bidding.model.Product$;
 import bidding.model.User;
 import bidding.repository.OfferRepository;
 import bidding.repository.ProductRepository;
@@ -13,12 +12,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 @Slf4j
@@ -53,10 +49,11 @@ public class BiddingAppApplication {
 			Product product1 = Product.of(user1.getUsername(), "Camera", "Old Camera", 25.0, "bit.ly/3AlicMg");
 			Product product2 = Product.of(user1.getUsername(), "Old Gramophone", "Old gramophone on a dark background. music concept", 30.0, "bit.ly/3mXStGz");
 			Product product3 = Product.of(user2.getUsername(),"Cassette Player", "The grandfather of the iPod.", 45.0, "bit.ly/3LlxGGb");
+			Product product4 = Product.of(user2.getUsername(),"Postage Stamp Collection", "My valuable postage stamp collection.", 50.0, "https://bit.ly/3NDuuYg");
 
 			userRepo.saveAll(Arrays.asList(user1, user2, user3));
 
-			productRepo.saveAll(Arrays.asList(product1, product2, product3));
+			productRepo.saveAll(Arrays.asList(product1, product2, product3, product4));
 			log.warn("SAVED PRODUCTS: {}", productRepo.findAll());
 
 			Product saved1 = productRepo.findByProductName("Camera");

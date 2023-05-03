@@ -20,6 +20,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Slf4j
 @Configuration
@@ -63,25 +64,29 @@ public class SecurityConfig {
 
         // http.cors().disable().csrf().disable().authorizeHttpRequests().anyRequest().permitAll();
 
-        // csrf().disable()
-        http.cors().disable().authorizeHttpRequests((request) -> request
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/products").hasRole("USER")
-                        .anyRequest().authenticated()
+        // .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+        http
+            .cors().disable()
+            .csrf().disable()
+            .authorizeHttpRequests((request) -> request
+                    .requestMatchers("/api/auth/**").permitAll()
+                    .requestMatchers("/api/products").permitAll()
+                    .requestMatchers("/api/products/**").hasRole("USER")
+                    .anyRequest().authenticated()
                 )
-                .logout()
-                .logoutUrl("/api/auth/logout")
-                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))
-                .and()
-                // Use HttpBasic Authentication
-                .httpBasic((basic) -> basic // save logged-in user's session data in context repository
-                        .withObjectPostProcessor(new ObjectPostProcessor<BasicAuthenticationFilter>() {
-                            public BasicAuthenticationFilter postProcess(BasicAuthenticationFilter filter) {
-                                filter.setSecurityContextRepository(new HttpSessionSecurityContextRepository());
-                                return filter;
-                            }
-                        }))
-                .anonymous().disable();
+        .logout()
+        .logoutUrl("/api/auth/logout")
+        .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))
+        .and()
+        // Use HttpBasic Authentication
+        .httpBasic((basic) -> basic // save logged-in user's session data in context repository
+                .withObjectPostProcessor(new ObjectPostProcessor<BasicAuthenticationFilter>() {
+                    public BasicAuthenticationFilter postProcess(BasicAuthenticationFilter filter) {
+                        filter.setSecurityContextRepository(new HttpSessionSecurityContextRepository());
+                        return filter;
+                    }
+                }))
+        .anonymous().disable();
 
 
 
