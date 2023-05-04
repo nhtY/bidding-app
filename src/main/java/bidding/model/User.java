@@ -38,6 +38,9 @@ public class User implements UserDetails, Serializable {
     @Indexed @NonNull
     private Address deliveryAddress;
 
+    @Indexed @NonNull
+    private PaymentInfo paymentInfo;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
