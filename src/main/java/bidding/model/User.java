@@ -35,6 +35,9 @@ public class User implements UserDetails, Serializable {
     @NonNull
     private String password;
 
+    @Indexed @NonNull
+    private Address deliveryAddress;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
