@@ -1,8 +1,6 @@
 package bidding;
 
-import bidding.model.Offer;
-import bidding.model.Product;
-import bidding.model.User;
+import bidding.model.*;
 import bidding.repository.OfferRepository;
 import bidding.repository.ProductRepository;
 import bidding.repository.UserRepository;
@@ -42,9 +40,22 @@ public class BiddingAppApplication {
 			productRepo.deleteAll();
 			offerRepo.deleteAll();
 
-			User user1 = User.of("David", "Brown", "david", passwordEncoder.encode("david123"));
-			User user2 = User.of("Bob", "Green", "bob", passwordEncoder.encode("bob123"));
-			User user3 = User.of("Tom", "Black", "tom", passwordEncoder.encode("tom123"));
+			Address address1 = Address.of("23", "Park St.", "London", "33001", "England");
+			Address address2 = Address.of("24", "Bank St.", "London", "33002", "England");
+			Address address3 = Address.of("25", "Baker St.", "London", "33003", "England");
+
+			PaymentInfo paymentInfo1 = PaymentInfo.of("374245455400126", "05/26", "837");
+			PaymentInfo paymentInfo2 = PaymentInfo.of("4263982640269299", "06/26", "738");
+			PaymentInfo paymentInfo3 = PaymentInfo.of("5425233430109903", "12/26", "123");
+
+			User user1 = User.of("David", "Brown", "david", passwordEncoder.encode("david123"),
+					address1, paymentInfo1);
+
+			User user2 = User.of("Bob", "Green", "bob", passwordEncoder.encode("bob123"),
+					address2, paymentInfo2);
+
+			User user3 = User.of("Tom", "Black", "tom", passwordEncoder.encode("tom123"),
+					address3, paymentInfo3);
 
 			Product product1 = Product.of(user1.getUsername(), "Camera", "Old Camera", 25.0, "bit.ly/3AlicMg");
 			Product product2 = Product.of(user1.getUsername(), "Old Gramophone", "Old gramophone on a dark background. music concept", 30.0, "bit.ly/3mXStGz");
