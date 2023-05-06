@@ -48,7 +48,7 @@ public class AuthController {
             return FormHandle.handleFormValidationError(bindingResult, HttpStatus.BAD_REQUEST);
         }
 
-        if(userRepo.existsByUsername(form.getUsername()) != null) {
+        if(userRepo.findByUsername(form.getUsername()) != null) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Username is already taken!"));

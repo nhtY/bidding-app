@@ -1,8 +1,11 @@
 package bidding.security;
 
+import bidding.model.Address;
+import bidding.model.PaymentInfo;
 import jakarta.validation.constraints.NotBlank;
 import bidding.model.User;
 import lombok.Data;
+import lombok.NonNull;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -25,8 +28,14 @@ public class RegisterForm {
     @Length(min = 8, message = "Şifre en az 8 karakter olmalı")
     private String password;
 
+    @NonNull
+    private Address deliveryAddress;
+
+    @NonNull
+    private PaymentInfo paymentInfo;
+
     public User toUser(PasswordEncoder passwordEncoder) {
-        return User.of(firstName, lastName, username, passwordEncoder.encode(password));
+        return User.of(firstName, lastName, username, passwordEncoder.encode(password), deliveryAddress, paymentInfo);
     }
 
 }
