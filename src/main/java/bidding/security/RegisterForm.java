@@ -28,6 +28,10 @@ public class RegisterForm {
     @Length(min = 8, message = "Şifre en az 8 karakter olmalı")
     private String password;
 
+    @NotBlank(message = "Şifre boş bırakılamaz")
+    @Length(min = 8, message = "Şifre en az 8 karakter olmalı")
+    private String passwordRepeat;
+
     @NonNull
     private Address deliveryAddress;
 

@@ -26,6 +26,7 @@ import java.util.*;
 @Slf4j
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = {"http://localhost:8080", "http://localhost:3000/"} ) // http://localhost:3000/ for test the React
 public class AuthController {
 
     private UserRepository userRepo;
@@ -51,7 +52,7 @@ public class AuthController {
         if(userRepo.findByUsername(form.getUsername()) != null) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
+                    .body(new MessageResponse("Username is already taken!"));
         }
         User userSaved = userRepo.save(form.toUser(passwordEncoder));
 

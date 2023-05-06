@@ -22,7 +22,7 @@ public class FormHandle {
         List<String> errors = bindingResult
                 .getFieldErrors()
                 .stream()
-                .map(x -> x.getDefaultMessage())
+                .map(x -> x.getField() + ':' + x.getDefaultMessage())
                 .collect(Collectors.toList());
 
         body.put("errors", errors);
