@@ -21,7 +21,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/api/products")
-@CrossOrigin(origins = {"http://localhost:8080", "http://127.0.0.1:5500"}) // http://127.0.0.1:5500 is vsCode testing
+//@CrossOrigin(origins = {"http://localhost:8080", }) // http://127.0.0.1:5500 is vsCode testing
 public class ProductController {
     private ProductRepository productRepo;
     private OfferRepository offerRepo;
