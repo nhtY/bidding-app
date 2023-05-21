@@ -17,7 +17,7 @@ public class CorsConfig {
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/api/*").allowedOrigins("http://localhost:8080", "http://localhost:3000");
+                registry.addMapping("/api/**").allowedOrigins("http://localhost:8080", "http://localhost:3000");
             }
         };
     }

@@ -7,11 +7,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,6 +28,8 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Slf4j
 @Configuration
@@ -71,26 +75,32 @@ public class SecurityConfig {
 
         // .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
         http
-            .cors().disable()
+            .cors().and()
             .csrf().disable()
+            //.csrf().disable()
             .authorizeHttpRequests((request) -> request
+                    .requestMatchers("/api/auth/login").hasRole("USER")
                     .requestMatchers("/api/auth/**").permitAll()
                     .requestMatchers("/api/products").permitAll()
                     .requestMatchers("/api/products/**").hasRole("USER")
                     .anyRequest().authenticated()
                 )
-        .logout()
-        .logoutUrl("/api/auth/logout")
-        .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))
-        .and()
+        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .httpBasic(withDefaults())
+                // No session, No Logout
+//        .logout()
+//        .logoutUrl("/api/auth/logout")
+//        .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))
+//        .and()
+
         // Use HttpBasic Authentication
-        .httpBasic((basic) -> basic // save logged-in user's session data in context repository
-                .withObjectPostProcessor(new ObjectPostProcessor<BasicAuthenticationFilter>() {
-                    public BasicAuthenticationFilter postProcess(BasicAuthenticationFilter filter) {
-                        filter.setSecurityContextRepository(new HttpSessionSecurityContextRepository());
-                        return filter;
-                    }
-                }))
+//        .httpBasic((basic) -> basic // save logged-in user's session data in context repository
+//                .withObjectPostProcessor(new ObjectPostProcessor<BasicAuthenticationFilter>() {
+//                    public BasicAuthenticationFilter postProcess(BasicAuthenticationFilter filter) {
+//                        filter.setSecurityContextRepository(new HttpSessionSecurityContextRepository());
+//                        return filter;
+//                    }
+//                }))
         .anonymous().disable();
 
 
